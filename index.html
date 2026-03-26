@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHAJAR-MESSAGE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+            width: 90%;
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e91e63;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yes-btn {
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            color: white;
+            min-width: 120px;
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(233, 30, 99, 0.4);
+        }
+
+        .no-btn {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .no-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        .message {
+            margin: 2rem 0;
+            font-size: 1.3rem;
+            color: #e91e63;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            animation: celebrate 0.6s ease-in-out;
+        }
+
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff69b4;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container" id="container">
+        <h1>Do you love me? 💕</h1>
+        <div class="message" id="message">Click a button...</div>
+        <div class="buttons">
+            <button class="yes-btn" id="yesBtn">Yes 😍</button>
+            <button class="no-btn" id="noBtn">No 😢</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const message = document.getElementById('message');
+        const container = document.getElementById('container');
+        const heartsContainer = document.getElementById('hearts');
+
+        let noClicks = 0;
+        const noMessages = [
+            "mt2ekda a hajar ? 🤔",
+            "feeekri! 😢",
+            "yhdik lah aaaa hajar"
+            "Please reconsider 🥺",
+            "Don't break my heart 💔",
+            "I know you love me! 💕",
+            "Just one click? 😏",
+            "You're making this hard! 😭",
+            "Pretty please? 🥰",
+            "I believe in us! ✨",
+            "Last chance! ❤️"
+        ];
+
+        // Create floating hearts background
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['💖', '💕', '💗', '💓', '💞'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // No button behavior
+        noBtn.addEventListener('click', function(e) {
+            noClicks++;
+            
+            // Playful sound effect (using Web Audio API)
+            playSound(200, 0.1);
+            
+            // Update message
+            message.textContent = noMessages[noClicks % noMessages.length];
+            
+            // Make Yes button bigger and more attractive
+            const scale = 1 + (noClicks * 0.15);
+            yesBtn.style.transform = `scale(${scale})`;
+            yesBtn.style.boxShadow = `0 ${15 + noClicks * 2}px ${30 + noClicks * 4}px rgba(233, 30, 99, 0.5)`;
+            
+            // Glow effect
+            yesBtn.style.filter = `drop-shadow(0 0 20px rgba(255, 107, 157, 0.8))`;
+            
+            // Move No button randomly (but keep it clickable)
+            const maxOffset = 100 - (noClicks * 5);
+            const offsetX = (Math.random() - 0.5) * Math.max(0, maxOffset);
+            const offsetY = (Math.random() - 0.5) * Math.max(0, maxOffset);
+            noBtn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+            
+            // Make No button smaller and less appealing
+            noBtn.style.transform += ` scale(${1 - noClicks * 0.05})`;
+            
+            // Prevent too much movement on mobile
+            if (noClicks > 8) {
+                noBtn.style.opacity = '0.7';
+                message.textContent = "You can't resist forever! 💖";
+            }
+        });
+
+        // Yes button - Victory!
+        yesBtn.addEventListener('click', function() {
+            playSound(523, 0.3); // Happy sound
+            
+            // Celebration animation
+            container.classList.add('success');
+            
+            // Replace content
+            container.innerHTML = `
+                <h1 style="font-size: 3rem; margin-bottom: 2rem;">I love you too! ❤️</h1>
+                <p style="font-size: 1.5rem; margin-bottom: 1rem;">kont 3aaaarefha hhhh 😍</p>
+                <p style="font-size: 1.2rem;">Forever & always 💕✨</p>
+            `;
+            
+            // Extra hearts explosion
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+            
+            // Disable buttons
+            yesBtn.style.display = 'none';
+            noBtn.style.display = 'none';
+        });
+
+        // Sound effect function
+        function playSound(frequency, duration) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        // Add hover sounds
+        yesBtn.addEventListener('mouseenter', () => playSound(659, 0.1));
+        noBtn.addEventListener('mouseenter', () => playSound(392, 0.1));
+    </script>
+</body>
+</html>
